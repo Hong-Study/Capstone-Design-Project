@@ -12,7 +12,7 @@
 class S1_API PacketSession : public TSharedFromThis<PacketSession>
 {
 public:
-	PacketSession(class FSocket* Socket, UWorld* World);
+	PacketSession(class FSocket* Socket);
 	~PacketSession();
 
 	void Run();
@@ -26,7 +26,6 @@ public:
 
 public:
 	class FSocket*	Socket;
-	class UWorld*	World;
 
 	TSharedPtr<class RecvWorker> RecvWorkerThread;
 	TSharedPtr<class SendWorker> SendWorkerThread;

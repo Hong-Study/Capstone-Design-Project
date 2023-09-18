@@ -9,7 +9,7 @@
 #include "SocketSubsystem.h"
 #include "ClientPacketHandler.h"
 
-PacketSession::PacketSession(FSocket* Socket, UWorld* World) :	Socket(Socket), World(World)
+PacketSession::PacketSession(FSocket* Socket) :	Socket(Socket)
 {
 	ClientPacketHandler::Init();
 }

@@ -2,6 +2,8 @@
 #include "RoomManager.h"
 #include "Room.h"
 
+shared_ptr<RoomManager> GRoom = make_shared<RoomManager>();
+
 RoomManager::RoomManager()
 {
 	_rooms[1] = make_shared<Room>();
@@ -12,38 +14,42 @@ RoomManager::~RoomManager()
 	_rooms.clear();
 }
 
-void RoomManager::GmaeCreate(PlayerRef player)
+bool RoomManager::GmaeCreate(PlayerRef player)
 {
 	WRITE_LOCK;
 	// TODO
+
+	return true;
 }
 
-void RoomManager::GameDelete(PlayerRef player, uint32 roomNum)
+bool RoomManager::GameDelete(PlayerRef player, uint32 roomNum)
 {
 	WRITE_LOCK;
 	// TODO
+
+	return true;
 }
 
-void RoomManager::GameInside(PlayerRef player, uint32 roomNum)
+bool RoomManager::GameInside(PlayerRef player, uint32 roomNum)
 {
 	{
 		WRITE_LOCK;
 
-		if (_rooms.find(roomNum) == _rooms.find(roomNum))
-			return;
+		if (_rooms.find(roomNum) == _rooms.end())
+			return false;
 	}
 	
-	_rooms[roomNum]->HandleEnterPlayerLocked(player);
+	return _rooms[roomNum]->HandleEnterPlayerLocked(player);
 }
 
-void RoomManager::GameOutside(uint32 roomNum, uint64 playerId)
+bool RoomManager::GameOutside(PlayerRef player, uint32 roomNum)
 {
 	{
 		WRITE_LOCK;
 
 		if (_rooms.find(roomNum) == _rooms.find(roomNum))
-			return;
+			return false;
 	}
 
-	_rooms[roomNum]->HandleLeavePlayerLocked(playerId);
+	return _rooms[roomNum]->HandleLeavePlayerLocked(player);
 }

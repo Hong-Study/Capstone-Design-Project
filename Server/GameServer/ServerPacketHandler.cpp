@@ -3,6 +3,8 @@
 #include "BufferReader.h"
 #include "BufferWriter.h"
 #include "GameSession.h"
+#include "Player.h"
+#include "Room.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -18,29 +20,40 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 	// TODO : DB에서 Account 정보를 긁어온다.
 	Protocol::S_LOGIN loginPkt;
 
-	for (int32 i = 0; i < 3; i++)
-	{
-		Protocol::PlayerInfo* player = loginPkt.add_players();
-		player->set_x(Utils::GetRandom(0.f, 100.f));
-		player->set_y(Utils::GetRandom(0.f, 100.f));
-		player->set_z(Utils::GetRandom(0.f, 100.f));
-		player->set_yaw(Utils::GetRandom(0.f, 100.f));
-	}
-
 	loginPkt.set_success(true);
 	SEND_PACKET(loginPkt);
+
 	return true;
 }
 
 bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
-	return true;
+	cout << "Player was " << pkt.room_index() << " Room Inside" << endl;
+	PlayerRef player = Utils::MakePlayerRef(static_pointer_cast<GameSession>(session));
+
+	return GRoom->GameInside(player, pkt.room_index());
+}
+
+bool Handle_C_CREATE_GAME(PacketSessionRef& session, Protocol::C_CREATE_GAME& pkt)
+{
+	return false;
 }
 
 bool Handle_C_LEAVE_GAME(PacketSessionRef& session, Protocol::C_LEAVE_GAME& pkt)
 {
+	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
-	return true;
+	PlayerRef player = gameSession->player.load();
+	if (player == nullptr)
+		return false;
+
+	RoomRef room = player->room.load().lock();
+	if (room == nullptr)
+		return false;
+
+	cout << "Player was " << player->playerInfo->object_id() << " Room OutSide" << endl;
+
+	return room->HandleLeavePlayerLocked(player);
 }
 
 bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT& pkt)

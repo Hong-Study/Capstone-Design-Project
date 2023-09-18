@@ -7,8 +7,8 @@ public class S1 : ModuleRules
 	public S1(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "Sockets", "Networking" });
+
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "Sockets", "Networking" });
 
         PrivateDependencyModuleNames.AddRange(new string[] { "ProtobufCore" });
 
@@ -16,6 +16,7 @@ public class S1 : ModuleRules
         {
             "S1/",
             "S1/Network/",
+            "S1/Player/",
         });
 
         // Uncomment if you are using Slate UI

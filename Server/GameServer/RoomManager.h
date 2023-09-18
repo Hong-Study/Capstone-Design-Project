@@ -8,11 +8,11 @@ public:
 	RoomManager();
 	~RoomManager();
 
-	void GmaeCreate(PlayerRef player);
-	void GameDelete(PlayerRef player, uint32 roomNum);
+	bool GmaeCreate(PlayerRef player);
+	bool GameDelete(PlayerRef player, uint32 roomNum);
 
-	void GameInside(PlayerRef player, uint32 roomNum);
-	void GameOutside(uint32 roomNum, uint64 playerId);
+	bool GameInside(PlayerRef player, uint32 roomNum);
+	bool GameOutside(PlayerRef player, uint32 roomNum);
 
 private:
 	USE_LOCK;

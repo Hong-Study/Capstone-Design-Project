@@ -1,6 +1,13 @@
 #pragma once
 #include "JobQueue.h"
 
+struct Point
+{
+	float x;
+	float y;
+	float z;
+};
+
 class Room : public enable_shared_from_this<Room>
 {
 public:
@@ -8,7 +15,7 @@ public:
 	virtual ~Room();
 
 	bool HandleEnterPlayerLocked(PlayerRef player);
-	bool HandleLeavePlayerLocked(uint64 id);
+	bool HandleLeavePlayerLocked(PlayerRef player);
 
 private:
 	bool EnterPlayer(PlayerRef player);
@@ -20,6 +27,7 @@ private:
 	void Broadcast(SendBufferRef sendBuffer, uint64 expectedId = 0);
 
 private:
-	unordered_map<uint64, PlayerRef> _players;
+	unordered_map<uint64, PlayerRef>	_players;
+	vector<Point>						_spawnPoint;
 };
 
