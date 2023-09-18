@@ -1,0 +1,19 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\temp\\s1\\intermediate\\build\\win64\\unrealeditor\\inc\\s1\\s1gamemodebase.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\temp\\s1\\intermediate\\build\\win64\\s1editor\\development\\engine\\sharedpch.engine.shadowerrors.h.pch",
+        "Includes": [
+            "d:\\temp\\s1\\intermediate\\build\\win64\\unrealeditor\\development\\s1\\definitions.s1.h",
+            "d:\\temp\\s1\\source\\s1\\s1gamemodebase.h",
+            "d:\\unreal\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\gameframework\\gamemodebase.h",
+            "d:\\unreal\\ue_5.0\\engine\\source\\runtime\\engine\\classes\\engine\\serverstatreplicator.h",
+            "d:\\unreal\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\serverstatreplicator.generated.h",
+            "d:\\unreal\\ue_5.0\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\gamemodebase.generated.h",
+            "d:\\temp\\s1\\intermediate\\build\\win64\\unrealeditor\\inc\\s1\\s1gamemodebase.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
