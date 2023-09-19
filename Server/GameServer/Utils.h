@@ -6,6 +6,7 @@ class Utils
 public:
 	static PlayerRef MakePlayerRef(GameSessionRef session);
 
+	static atomic<uint64> objectId;
 public:
 	template<typename T>
 	static T GetRandom(T min, T max)

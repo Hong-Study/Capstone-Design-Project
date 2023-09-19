@@ -20,6 +20,8 @@ using GameSessionRef	= shared_ptr<class GameSession>;
 using PlayerRef			= shared_ptr<class Player>;
 using RoomRef			= shared_ptr<class Room>;
 
+#define TIME_SYNC 1000/10
+
 #include "ServerPacketHandler.h"
 #include "Utils.h"
 #include "GameSession.h"
@@ -27,4 +29,4 @@ using RoomRef			= shared_ptr<class Room>;
 
 #define SEND_PACKET(pkt)											 \
 SendBufferRef sendBuffer = ServerPacketHandler::MakeSendBuffer(pkt); \
-session->Send(sendBuffer);											 
+session->Send(sendBuffer);			

@@ -7,7 +7,7 @@
 struct PacketHeader
 {
 	uint16 size;
-	uint16 id; // ��������ID (ex. 1=�α���, 2=�̵���û)
+	uint16 id;
 };
 
 class SendBuffer : public TSharedFromThis<SendBuffer>
@@ -33,6 +33,12 @@ private:
 USING_SHARED_PTR(Session);
 USING_SHARED_PTR(PacketSession);
 USING_SHARED_PTR(SendBuffer);
+
+
+// Network
+#include "Enum.pb.h"
+#include "Protocol.pb.h"
+#include "Struct.pb.h"
 
 #include "ClientPacketHandler.h"
 #include "S1GameInstance.h"

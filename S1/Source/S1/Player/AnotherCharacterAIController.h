@@ -3,18 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
-#include "MyPlayerController.generated.h"
+#include "AIController.h"
+#include "AnotherCharacterAIController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class S1_API AMyPlayerController : public APlayerController
+class S1_API AAnotherCharacterAIController : public AAIController
 {
 	GENERATED_BODY()
+
 public:
-	AMyPlayerController();
+	AAnotherCharacterAIController();
 
 protected:
 	// Called when the game starts or when spawned
@@ -22,6 +23,4 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
-
-	virtual void SetupInputComponent() override;
 };

@@ -179,10 +179,11 @@ class PlayerInfo final :
 
   enum : int {
     kObjectIdFieldNumber = 1,
-    kXFieldNumber = 2,
-    kYFieldNumber = 3,
-    kZFieldNumber = 4,
-    kYawFieldNumber = 5,
+    kMoveTypeFieldNumber = 2,
+    kXFieldNumber = 3,
+    kYFieldNumber = 4,
+    kZFieldNumber = 5,
+    kYawFieldNumber = 6,
   };
   // uint64 object_id = 1;
   void clear_object_id();
@@ -193,7 +194,16 @@ class PlayerInfo final :
   void _internal_set_object_id(uint64_t value);
   public:
 
-  // float x = 2;
+  // .Protocol.MoveType moveType = 2;
+  void clear_movetype();
+  ::Protocol::MoveType movetype() const;
+  void set_movetype(::Protocol::MoveType value);
+  private:
+  ::Protocol::MoveType _internal_movetype() const;
+  void _internal_set_movetype(::Protocol::MoveType value);
+  public:
+
+  // float x = 3;
   void clear_x();
   float x() const;
   void set_x(float value);
@@ -202,7 +212,7 @@ class PlayerInfo final :
   void _internal_set_x(float value);
   public:
 
-  // float y = 3;
+  // float y = 4;
   void clear_y();
   float y() const;
   void set_y(float value);
@@ -211,7 +221,7 @@ class PlayerInfo final :
   void _internal_set_y(float value);
   public:
 
-  // float z = 4;
+  // float z = 5;
   void clear_z();
   float z() const;
   void set_z(float value);
@@ -220,7 +230,7 @@ class PlayerInfo final :
   void _internal_set_z(float value);
   public:
 
-  // float yaw = 5;
+  // float yaw = 6;
   void clear_yaw();
   float yaw() const;
   void set_yaw(float value);
@@ -238,6 +248,7 @@ class PlayerInfo final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     uint64_t object_id_;
+    int movetype_;
     float x_;
     float y_;
     float z_;
@@ -278,7 +289,27 @@ inline void PlayerInfo::set_object_id(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.object_id)
 }
 
-// float x = 2;
+// .Protocol.MoveType moveType = 2;
+inline void PlayerInfo::clear_movetype() {
+  _impl_.movetype_ = 0;
+}
+inline ::Protocol::MoveType PlayerInfo::_internal_movetype() const {
+  return static_cast< ::Protocol::MoveType >(_impl_.movetype_);
+}
+inline ::Protocol::MoveType PlayerInfo::movetype() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.moveType)
+  return _internal_movetype();
+}
+inline void PlayerInfo::_internal_set_movetype(::Protocol::MoveType value) {
+  
+  _impl_.movetype_ = value;
+}
+inline void PlayerInfo::set_movetype(::Protocol::MoveType value) {
+  _internal_set_movetype(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.moveType)
+}
+
+// float x = 3;
 inline void PlayerInfo::clear_x() {
   _impl_.x_ = 0;
 }
@@ -298,7 +329,7 @@ inline void PlayerInfo::set_x(float value) {
   // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.x)
 }
 
-// float y = 3;
+// float y = 4;
 inline void PlayerInfo::clear_y() {
   _impl_.y_ = 0;
 }
@@ -318,7 +349,7 @@ inline void PlayerInfo::set_y(float value) {
   // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.y)
 }
 
-// float z = 4;
+// float z = 5;
 inline void PlayerInfo::clear_z() {
   _impl_.z_ = 0;
 }
@@ -338,7 +369,7 @@ inline void PlayerInfo::set_z(float value) {
   // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.z)
 }
 
-// float yaw = 5;
+// float yaw = 6;
 inline void PlayerInfo::clear_yaw() {
   _impl_.yaw_ = 0;
 }

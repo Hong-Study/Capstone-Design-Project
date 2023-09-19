@@ -1,8 +1,8 @@
 #pragma once
-
+#include "JobQueue.h"
 class Room;
 
-class RoomManager
+class RoomManager : public JobQueue
 {
 public:
 	RoomManager();
@@ -13,6 +13,8 @@ public:
 
 	bool GameInside(PlayerRef player, uint32 roomNum);
 	bool GameOutside(PlayerRef player, uint32 roomNum);
+
+	void RoomSync();
 
 private:
 	USE_LOCK;

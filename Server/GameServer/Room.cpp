@@ -4,9 +4,9 @@
 
 Room::Room()
 {
-	for (int i = 0; i < 50 ; i++)
+	for (int i = -3; i <= 7 ; i++)
 	{
-		_spawnPoint.push_back(Point(i * 30.f, i * 30.f, 88.f ));
+		_spawnPoint.push_back(Point(0.f, i * 100.f, 88.f ));
 	}
 }
 
@@ -73,10 +73,10 @@ bool Room::HandleEnterPlayerLocked(PlayerRef player)
 
 bool Room::HandleLeavePlayerLocked(PlayerRef player)
 {
+	WRITE_LOCK;
+
 	if (player == nullptr)
 		return false;
-
-	WRITE_LOCK;
 
 	const uint64 objectId = player->playerInfo->object_id();
 	bool success = LeavePlayer(objectId);
@@ -103,6 +103,32 @@ bool Room::HandleLeavePlayerLocked(PlayerRef player)
 	return success;
 }
 
+void Room::PlayerMove(PlayerRef player, Protocol::C_MOVE pkt)
+{
+	WRITE_LOCK;
+	if (player->playerInfo->movetype() != pkt.player().movetype())
+	{
+		Protocol::S_MOVE movePkt;
+		movePkt.add_players()->CopyFrom(pkt.player());
+		Broadcast(ServerPacketHandler::MakeSendBuffer(movePkt));
+	}
+
+	player->playerInfo->CopyFrom(pkt.player());
+}
+
+void Room::PlayerMoveSync()
+{
+	WRITE_LOCK;
+
+	Protocol::S_MOVE movePkt;
+	for (auto& playerPairs : _players)
+	{
+		PlayerRef player = playerPairs.second;
+		movePkt.add_players()->CopyFrom(*player->playerInfo);
+	}
+
+	Broadcast(ServerPacketHandler::MakeSendBuffer(movePkt));
+}
 
 bool Room::EnterPlayer(PlayerRef player)
 {
@@ -113,7 +139,7 @@ bool Room::EnterPlayer(PlayerRef player)
 
 	_players.insert(make_pair(playerId, player));
 
-	player->room.store(shared_from_this());
+	player->room.store(static_pointer_cast<Room>(shared_from_this()));
 	
 	return true;
 }

@@ -74,6 +74,34 @@ inline bool PlayerType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerType>(
     PlayerType_descriptor(), name, value);
 }
+enum MoveType : int {
+  PLAYER_NONE = 0,
+  PLAYER_IDLE = 1,
+  PLAYER_WALK = 2,
+  PLAYER_RUN = 3,
+  PLAYER_JUMP = 4,
+  MoveType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  MoveType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool MoveType_IsValid(int value);
+constexpr MoveType MoveType_MIN = PLAYER_NONE;
+constexpr MoveType MoveType_MAX = PLAYER_JUMP;
+constexpr int MoveType_ARRAYSIZE = MoveType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MoveType_descriptor();
+template<typename T>
+inline const std::string& MoveType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, MoveType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function MoveType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    MoveType_descriptor(), enum_t_value);
+}
+inline bool MoveType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, MoveType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<MoveType>(
+    MoveType_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -100,6 +128,11 @@ template <> struct is_proto_enum< ::Protocol::PlayerType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::PlayerType>() {
   return ::Protocol::PlayerType_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::MoveType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::MoveType>() {
+  return ::Protocol::MoveType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

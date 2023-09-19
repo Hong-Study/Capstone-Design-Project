@@ -81,6 +81,20 @@ void US1GameInstance::SendPacket(SendBufferRef SendBuffer)
 	GameServerSession->SendPacket(SendBuffer);
 }
 
+void US1GameInstance::SendMovePacket(const FVector& Location, const float& Yaw, const Protocol::MoveType& MoveType)
+{
+	Protocol::C_MOVE MovePkt;
+	Protocol::PlayerInfo* PlayerInfo = MovePkt.mutable_player();
+	PlayerInfo->set_object_id(MyObjectId);
+	PlayerInfo->set_movetype(MoveType);
+	PlayerInfo->set_x(Location.X);
+	PlayerInfo->set_y(Location.Y);
+	PlayerInfo->set_z(Location.Z);
+	PlayerInfo->set_yaw(Yaw);
+
+	SendPacket(ClientPacketHandler::MakeSendBuffer(MovePkt));
+}
+
 void US1GameInstance::HandleSpawn(const Protocol::PlayerInfo& PlayerInfo)
 {
 	auto* World = GetWorld();
@@ -90,8 +104,6 @@ void US1GameInstance::HandleSpawn(const Protocol::PlayerInfo& PlayerInfo)
 	const uint64 ObjectId = PlayerInfo.object_id();
 	if (Players.Find(ObjectId) != nullptr)
 		return;
-
-	UE_LOG(LogTemp, Warning, TEXT("Input : %d"), ObjectId);
 
 	FVector SpawnLocation(PlayerInfo.x(), PlayerInfo.y(), PlayerInfo.z());
 
@@ -103,6 +115,9 @@ void US1GameInstance::HandleSpawn(const Protocol::PlayerInfo& PlayerInfo)
 	else
 	{
 		Player = World->SpawnActor(AAnotherCharacter::StaticClass(), &SpawnLocation);
+		auto* Another = Cast<AAnotherCharacter>(Player);
+		if(Another)
+			Another->SpawnDefaultController();
 	}
 
 	if (Player == nullptr)
@@ -147,5 +162,29 @@ void US1GameInstance::HandleDespawn(const Protocol::S_DESPAWN& DespawnPkt)
 	for (auto& ObjectId : DespawnPkt.object_ids())
 	{
 		HandleDespawn(ObjectId);
+	}
+}
+
+void US1GameInstance::HandleMove(const Protocol::PlayerInfo& PlayerInfo)
+{
+	AActor** FindActor = Players.Find(PlayerInfo.object_id());
+	if (FindActor == nullptr)
+		return;
+
+	AAnotherCharacter* Another = Cast<AAnotherCharacter>(*FindActor);
+	if (Another == nullptr)
+		return;
+
+	Another->MoveActor(PlayerInfo);
+}
+
+void US1GameInstance::HandleMove(const Protocol::S_MOVE& MovePkt)
+{
+	for (auto& PlayerInfo : MovePkt.players())
+	{
+		if (PlayerInfo.object_id() == MyObjectId)
+			continue;
+
+		HandleMove(PlayerInfo);
 	}
 }

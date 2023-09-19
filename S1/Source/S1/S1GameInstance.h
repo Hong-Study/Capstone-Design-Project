@@ -26,6 +26,7 @@ public:
 	void HandleRecvPackets();
 
 	void SendPacket(SendBufferRef SendBuffer);
+	void SendMovePacket(const FVector& Location, const float& Yaw, const Protocol::MoveType& MoveType);
 
 public:
 	
@@ -35,6 +36,9 @@ public:
 
 	void HandleDespawn(uint64 ObjectId);
 	void HandleDespawn(const Protocol::S_DESPAWN& DespawnPkt);
+
+	void HandleMove(const Protocol::PlayerInfo& PlayerInfo);
+	void HandleMove(const Protocol::S_MOVE& MovePkt);
 
 public:
 	// GameServer

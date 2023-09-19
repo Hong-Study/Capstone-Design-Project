@@ -18,7 +18,7 @@ void JobTimer::Reserve(uint64 tickAfter, weak_ptr<JobQueue> owner, JobRef job)
 
 void JobTimer::Distribute(uint64 now)
 {
-	// ÇÑ ¹ø¿¡ 1 ¾²·¹µå¸¸ Åë°ú
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1 ï¿½ï¿½ï¿½ï¿½ï¿½å¸¸ ï¿½ï¿½ï¿½
 	if (_distributing.exchange(true) == true)
 		return;
 
@@ -46,7 +46,7 @@ void JobTimer::Distribute(uint64 now)
 		delete item.jobData;		
 	}
 
-	// ³¡³µÀ¸¸é Ç®¾îÁØ´Ù
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ï¿½Ø´ï¿½
 	_distributing.store(false);
 }
 

@@ -5,8 +5,7 @@
 #include "Session.h"
 #include "GameSession.h"
 #include "GameSessionManager.h"
-//#include "ClientPacketHandler.h"
-#include <tchar.h>
+#include "RoomManager.h"
 #include "Job.h"
 
 enum
@@ -50,6 +49,8 @@ int main()
 				DoWorkerJob(service);
 			});
 	}
+
+	GRoom->DoTimer(TIME_SYNC, &RoomManager::RoomSync);
 
 	// Main Thread
 	DoWorkerJob(service);

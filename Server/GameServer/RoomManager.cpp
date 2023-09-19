@@ -32,24 +32,34 @@ bool RoomManager::GameDelete(PlayerRef player, uint32 roomNum)
 
 bool RoomManager::GameInside(PlayerRef player, uint32 roomNum)
 {
-	{
-		WRITE_LOCK;
+	WRITE_LOCK;
 
-		if (_rooms.find(roomNum) == _rooms.end())
-			return false;
-	}
-	
+	if (_rooms.find(roomNum) == _rooms.end())
+		return false;
+
 	return _rooms[roomNum]->HandleEnterPlayerLocked(player);
 }
 
 bool RoomManager::GameOutside(PlayerRef player, uint32 roomNum)
 {
-	{
-		WRITE_LOCK;
+	WRITE_LOCK;
 
-		if (_rooms.find(roomNum) == _rooms.find(roomNum))
-			return false;
-	}
+	if (_rooms.find(roomNum) == _rooms.end())
+		return false;
 
 	return _rooms[roomNum]->HandleLeavePlayerLocked(player);
+}
+
+void RoomManager::RoomSync()
+{
+	WRITE_LOCK;
+
+	for (auto& pairs : _rooms)
+	{
+		RoomRef room = pairs.second;
+
+		room->DoAsync(&Room::PlayerMoveSync);
+	}
+
+	DoTimer(TIME_SYNC, &RoomManager::RoomSync);
 }

@@ -33,9 +33,4 @@ public:
 	// GameThread�� NetworkThread
 	TQueue<TArray<uint8>> RecvPacketQueue;
 	TQueue<SendBufferRef> SendPacketQueue;
-
-public:
-	uint64						PlayerId;
-	class AMyPlayer*			MyPlayer;
-	TMap<uint64, class AEnemyPlayer*> EnemyPlayers;
 };

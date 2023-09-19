@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../Network/Enum.pb.h"
+#include "InputActionValue.h"
 #include "MyCharacter.generated.h"
 
 UCLASS()
@@ -28,8 +30,30 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-		class USpringArmComponent* SpringArm;
+	class USpringArmComponent* SpringArm;
 
 	UPROPERTY(VisibleAnywhere)
-		class UCameraComponent* Camera;
+	class UCameraComponent* Camera;
+
+protected:
+	UFUNCTION()
+	void IA_Move(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void IA_Move_Stop(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void IA_Turn(const FInputActionValue& Value);
+
+private:
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<class UInputMappingContext> InputMappingContext;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<class UInputAction> MoveAction;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	TObjectPtr<class UInputAction> TurnAction;
+
+	Protocol::MoveType MoveType = Protocol::MoveType::PLAYER_IDLE;
 };

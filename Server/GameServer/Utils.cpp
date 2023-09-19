@@ -2,12 +2,12 @@
 #include "Utils.h"
 #include "Player.h"
 
+atomic<uint64> Utils::objectId = 1;
+
 PlayerRef Utils::MakePlayerRef(GameSessionRef session)
 {
-	static atomic<uint64> playerCount = 0;
-
 	PlayerRef player = make_shared<Player>();
-	player->playerInfo->set_object_id(playerCount.fetch_add(1));
+	player->playerInfo->set_object_id(objectId.fetch_add(1));
 
 	player->session = session;
 	session->player.store(player);

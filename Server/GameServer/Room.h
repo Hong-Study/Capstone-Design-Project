@@ -8,7 +8,7 @@ struct Point
 	float z;
 };
 
-class Room : public enable_shared_from_this<Room>
+class Room : public JobQueue
 {
 public:
 	Room();
@@ -16,6 +16,9 @@ public:
 
 	bool HandleEnterPlayerLocked(PlayerRef player);
 	bool HandleLeavePlayerLocked(PlayerRef player);
+
+	void PlayerMove(PlayerRef player, Protocol::C_MOVE pkt);
+	void PlayerMoveSync();
 
 private:
 	bool EnterPlayer(PlayerRef player);
